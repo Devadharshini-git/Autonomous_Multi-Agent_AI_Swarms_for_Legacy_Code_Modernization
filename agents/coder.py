@@ -135,6 +135,24 @@ def save_service(service_code: str, service_name: str):
     with open(req_path, "w", encoding="utf-8") as f:
         f.write("fastapi\nuvicorn\n")
 
+    # Permanent Dockerfile so CI/CD (GitHub Actions) can build this
+    # service directly, independent of the local sandbox test runner.
+    dockerfile_path = os.path.join(output_dir, "Dockerfile")
+    dockerfile_content = """FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY . /app
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+"""
+    with open(dockerfile_path, "w", encoding="utf-8") as f:
+        f.write(dockerfile_content)
+
     print(f"✅ Saved generated service to: {filepath}")
     return filepath
 
