@@ -1,0 +1,17 @@
+langgraph
+langchain
+langchain-community
+ollama
+chromadb
+libcst
+fastapi
+uvicorn
+pytest
+pytest-cov
+docker
+python-dotenv
+streamlit
+bandit
+safety
+radon
+pylint
